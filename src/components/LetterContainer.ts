@@ -1,3 +1,8 @@
+import { store } from "../flux/Store";
+import { AppDispatcher } from "../flux/Dispatcher";
+import { AppState } from "../types/SrcTypes";
+import "../flux/Actions";
+
 class LetterContainer extends HTMLElement {
   constructor() {
     super();
@@ -6,10 +11,30 @@ class LetterContainer extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    store.subscribe(this.handleStateChange.bind(this));
+  }
+
+  disconnectedCallback() {
+    store.unsubscribe(this.handleStateChange.bind(this));
+  }
+
+  handleStateChange(state: AppState) {
+    const submitBtn = this.shadowRoot?.querySelector(
+      "button[type='submit']"
+    ) as HTMLButtonElement;
+    const errorMsg = this.shadowRoot?.querySelector(".error-message");
+
+    if (submitBtn && errorMsg) {
+      submitBtn.disabled = state.loading;
+      submitBtn.textContent = state.loading ? "Continuando..." : "Continuar";
+      errorMsg.textContent = state.error || "";
+    }
   }
 
   render() {
-    this.shadowRoot!.innerHTML = `
+    if (!this.shadowRoot) return;
+
+    this.shadowRoot.innerHTML = `
       <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
         
@@ -108,8 +133,8 @@ class LetterContainer extends HTMLElement {
       <div class="container">
      <form>
      <div class="form-group">
-            <label for="role">Selecciona una letra que te represente</label>
-            <select id="role" required>
+            <label for="letter">Selecciona una letra que te represente</label>
+            <select id="letter" required>
               <option value="a">A</option>
               <option value="b">B</option>
               <option value="c">C</option>
@@ -140,7 +165,7 @@ class LetterContainer extends HTMLElement {
             </select>
           </div>
 
-          <button type="submit">Continuar</button>
+          <button type="submit" id="continuar-btn">Continuar</button>
           
           <div class="error-message"></div>
      </form>
@@ -148,6 +173,19 @@ class LetterContainer extends HTMLElement {
 
       
     `;
+
+    const continuarBtn = this.shadowRoot.querySelector("#continuar-btn");
+    continuarBtn?.addEventListener("click", () => {
+      AppDispatcher.dispatch({
+        type: "NavigateActionsType.NAVIGATE,",
+        payload: {},
+      });
+      window.dispatchEvent(
+        new CustomEvent("navigate", {
+          detail: { path: "/colors" },
+        })
+      );
+    });
   }
 }
 

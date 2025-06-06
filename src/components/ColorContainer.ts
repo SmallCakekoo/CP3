@@ -110,16 +110,16 @@ class ColorContainer extends HTMLElement {
      <div class="form-group">
             <label for="role">Selecciona una letra que te represente</label>
             <select id="role" required>
-              <option value="a">A</option>
-              <option value="b">B</option>
-              <option value="c">C</option>
-              <option value="d">D</option>
-              <option value="e">E</option>
-              <option value="f">F</option>
-              <option value="g">G</option>
-              <option value="h">H</option>
-              <option value="i">I</option>
-              <option value="j">J</option>
+              <option value="#E5DF06">Amarillo</option>
+              <option value="#0715E5">Azul</option>
+              <option value="#E60901">Rojo</option>
+              <option value="#E64D00">Naranja</option>
+              <option value="#5BE607">Verde</option>
+              <option value="#E67C07">Café</option>
+              <option value="#A501E6">Morado</option>
+              <option value="#000000">Negro</option>
+              <option value="#FFFFFF">Blanco</option>
+              <option value="#EB72A4">Rosado</option>
             </select>
           </div>
 
