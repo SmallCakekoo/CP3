@@ -102,6 +102,9 @@ class RootApp extends HTMLElement {
       case "/colors":
         newComponent = document.createElement("color-page");
         break;
+      case "/board":
+        newComponent = document.createElement("board-page");
+        break;
       default:
         newComponent = document.createElement("four-page");
         break;
